@@ -30,7 +30,9 @@
     --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Base Global Reset and Core Overhaul */
+/* ==========================================================================
+   STRICT GLOBAL RESET & OVERFLOW PROTECTION
+   ========================================================================== */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -38,11 +40,17 @@
     scroll-behavior: smooth;
 }
 
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* Kisi bhi qisam ka right/bottom scroll khatam karne ke liye */
+    position: relative;
+}
+
 body {
     background-color: var(--bg-base-monolith);
     color: var(--text-primary);
     font-family: 'Plus Jakarta Sans', sans-serif;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -91,7 +99,6 @@ h1, h2, h3, h4, .brand-logo-node {
     z-index: 9999;
 }
 
-/* Hide custom cursor on mobile devices for better UX */
 @media (max-width: 768px) {
     .custom-cursor-dot, .custom-cursor-outline {
         display: none !important;
@@ -122,7 +129,7 @@ h1, h2, h3, h4, .brand-logo-node {
 }
 
 /* ==========================================================================
-   NAVIGATION ARCHITECTURE
+   NAVIGATION ARCHITECTURE (FIXED HIRE ME ISSUE)
    ========================================================================== */
 .navbar-frame {
     position: fixed;
@@ -153,6 +160,7 @@ h1, h2, h3, h4, .brand-logo-node {
     font-weight: 700;
     color: var(--text-primary);
     text-decoration: none;
+    flex-shrink: 0;
 }
 .brand-accent-period {
     color: var(--accent-purple);
@@ -185,6 +193,8 @@ h1, h2, h3, h4, .brand-logo-node {
     border-radius: 8px;
     transition: transform var(--transition-fast), background-color var(--transition-fast);
     display: inline-block;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 .nav-cta-trigger-btn:hover {
     background-color: var(--accent-purple);
@@ -204,6 +214,7 @@ h1, h2, h3, h4, .brand-logo-node {
     padding: 0 48px;
     position: relative;
     z-index: 10;
+    width: 100%;
 }
 
 .space-offset-top {
@@ -217,6 +228,7 @@ h1, h2, h3, h4, .brand-logo-node {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 60px;
+    width: 100%;
 }
 
 .hero-layout-grid-mesh.alignment-center-matrix {
@@ -235,7 +247,7 @@ h1, h2, h3, h4, .brand-logo-node {
 }
 
 .hero-primary-display-heading {
-    font-size: clamp(32px, 5vw, 56px); /* Fluid typography */
+    font-size: clamp(32px, 5vw, 56px);
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 24px;
@@ -257,9 +269,10 @@ h1, h2, h3, h4, .brand-logo-node {
 
 .hero-interactive-action-matrix {
     display: flex;
-    flex-wrap: wrap; /* Wraps buttons on ultra-small screens */
+    flex-wrap: wrap; 
     gap: 16px;
     margin-bottom: 64px;
+    width: 100%;
 }
 
 .hero-action-btn-primary {
@@ -306,6 +319,7 @@ h1, h2, h3, h4, .brand-logo-node {
 .hero-trust-logotype-ecosystem {
     border-top: 1px solid var(--border-dim);
     padding-top: 32px;
+    width: 100%;
 }
 .trust-ecosystem-label {
     font-size: 12px;
@@ -318,9 +332,10 @@ h1, h2, h3, h4, .brand-logo-node {
 .logotype-scrolling-mesh-row {
     display: flex;
     align-items: center;
-    flex-wrap: wrap; /* Mobile friendly wrapping */
-    gap: 40px;
+    flex-wrap: wrap; 
+    gap: clamp(16px, 3vw, 40px);
     opacity: 0.4;
+    width: 100%;
 }
 .brand-text-mock {
     font-size: 16px;
@@ -331,7 +346,7 @@ h1, h2, h3, h4, .brand-logo-node {
 
 .hero-media-showcase-column-node {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     width: 100%;
 }
 .hero-media-showcase-column-node.center-y-axis-match {
@@ -341,7 +356,7 @@ h1, h2, h3, h4, .brand-logo-node {
 .hero-canvas-spotlight-frame.profile-canvas-compact {
     position: relative;
     width: 100%;
-    max-width: 340px; 
+    max-width: 320px; 
     aspect-ratio: 1 / 1; 
     border-radius: 50%; 
     overflow: hidden;
@@ -366,7 +381,7 @@ h1, h2, h3, h4, .brand-logo-node {
 }
 
 /* ==========================================================================
-   PRODUCTION WORK PREVIEW GRID
+   PRODUCTION WORK PREVIEW GRID (OVERFLOW FIXED FOR HOVERS)
    ========================================================================== */
 .module-header-metadata-row {
     display: flex;
@@ -398,14 +413,18 @@ h1, h2, h3, h4, .brand-logo-node {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
+    width: 100%;
+    position: relative;
+    z-index: 5;
 }
 
 .production-grid-item-card-element {
     background-color: var(--bg-surface-card);
     border-radius: 20px;
-    overflow: hidden;
+    overflow: hidden; /* Hover effects card se bahar nahi niklenge */
     border: 1px solid var(--border-dim);
     transition: border-color var(--transition-smooth), transform var(--transition-smooth);
+    position: relative;
 }
 .production-grid-item-card-element:hover {
     border-color: var(--border-accent);
@@ -505,17 +524,22 @@ h1, h2, h3, h4, .brand-logo-node {
 }
 
 /* ==========================================================================
-   ABOUT SECRETS
+   ABOUT SECRETS & VIDEO PROTECTION ZONE
    ========================================================================== */
 .separator-line-top {
     border-top: 1px solid var(--border-dim);
+    clear: both;
+    margin-top: 80px; /* Safe padding featured work cards ke baad */
 }
 
 .about-split-flex-container-mesh {
     display: flex;
     gap: 80px;
     align-items: center;
+    margin-top: 40px;
     margin-bottom: 80px;
+    position: relative;
+    z-index: 10;
 }
 
 .about-graphic-avatar-wrapper-node {
@@ -526,7 +550,7 @@ h1, h2, h3, h4, .brand-logo-node {
     position: relative;
     width: 100%;
     max-width: 364px;
-    aspect-ratio: 16 / 9; /* Modern responsive aspect ratio constraint */
+    aspect-ratio: 16 / 9;
     border-radius: 14px;
     overflow: hidden;
     border: 1px solid var(--border-bright);
@@ -581,6 +605,7 @@ h1, h2, h3, h4, .brand-logo-node {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    width: 100%;
 }
 .metric-counter-individual-card {
     background-color: var(--bg-surface-card);
@@ -653,6 +678,7 @@ h1, h2, h3, h4, .brand-logo-node {
 .services-linear-rows-stack-panel {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .service-linear-row-item-wrapper {
     display: grid;
@@ -707,6 +733,7 @@ h1, h2, h3, h4, .brand-logo-node {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+    width: 100%;
 }
 .publication-modular-card-item {
     display: flex;
@@ -777,6 +804,7 @@ h1, h2, h3, h4, .brand-logo-node {
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
     gap: 80px;
+    width: 100%;
 }
 .contact-primary-display-heading {
     font-size: clamp(28px, 4vw, 42px);
@@ -796,7 +824,7 @@ h1, h2, h3, h4, .brand-logo-node {
     border-radius: 10px;
     display: inline-block;
     max-width: 100%;
-    word-break: break-all; /* Fixed email text breaking on absolute small screens */
+    word-break: break-all;
 }
 .anchor-label-prefix-string {
     font-family: 'Space Grotesk', sans-serif;
@@ -815,6 +843,7 @@ h1, h2, h3, h4, .brand-logo-node {
     border: 1px solid var(--border-dim);
     padding: clamp(20px, 4vw, 40px);
     border-radius: 20px;
+    width: 100%;
 }
 .form-inputs-dual-column-row {
     display: grid;
@@ -881,6 +910,7 @@ h1, h2, h3, h4, .brand-logo-node {
     margin: 0 auto;
     padding: 64px 48px 32px 48px;
     border-top: 1px solid var(--border-dim);
+    width: 100%;
 }
 .footer-primary-grid-mesh {
     display: grid;
@@ -1011,17 +1041,16 @@ h1, h2, h3, h4, .brand-logo-node {
 .portal-extended-details-paragraph-body-string { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
 
 /* ==========================================================================
-   FLUID MEDIA SCROLL & RESPONSIVE QUERIES (BREAKPOINTS COMPACT OPTIMIZATION)
+   FLUID MEDIA SCROLL & RESPONSIVE QUERIES BREAKPOINTS
    ========================================================================== */
 @media (max-width: 1024px) {
     .navbar-container, .viewport-structural-wrapper, .system-monolith-terminal-footer { padding: 0 24px; }
     .hero-layout-grid-mesh { grid-template-columns: 1fr; gap: 48px; text-align: center; }
-    .hero-media-showcase-column-node { justify-content: center; }
     .hero-secondary-description-string { margin: 0 auto 40px auto; }
     .hero-interactive-action-matrix { justify-content: center; }
     .logotype-scrolling-mesh-row { justify-content: center; }
     .production-grid-cards-mesh-matrix { grid-template-columns: 1fr; }
-    .about-split-flex-container-mesh { flex-direction: column; text-align: center; }
+    .about-split-flex-container-mesh { flex-direction: column; text-align: center; gap: 40px; }
     .about-graphic-avatar-wrapper-node { flex: 0 0 auto; width: 100%; max-width: 364px; margin: 0 auto; }
     .about-context-hyperlink-trigger { justify-content: center; }
     .about-metrics-counter-dashboard-grid { grid-template-columns: 1fr; gap: 16px; }
@@ -1033,33 +1062,56 @@ h1, h2, h3, h4, .brand-logo-node {
 }
 
 @media (max-width: 768px) {
-    /* Mobile Toggle Switch Visibility & Navigation links handling stack */
-    .nav-links-cluster, .nav-cta-trigger-btn { display: none; } /* JavaScript logic dynamic toggling trigger use case config */
-    .mobile-toggle-trigger { display: block; color: var(--text-primary); cursor: pointer; }
+    .navbar-container { padding: 0 16px; }
+    .nav-links-cluster { display: none !important; } /* Standard Mobile Menu Hide Toggle */
     
-    .form-inputs-dual-column-row { grid-template-columns: 1fr; } /* Inputs stacks on small layouts */
+    .nav-cta-trigger-btn {
+        display: inline-block !important;
+        padding: 10px 18px;
+        font-size: 13px;
+        margin-left: auto; /* Logo ke bilkul side par fit karne ke liye */
+    }
+    
+    .mobile-toggle-trigger { 
+        display: block; 
+        margin-left: 16px;
+        cursor: pointer;
+    }
+    
+    .form-inputs-dual-column-row { grid-template-columns: 1fr; }
     .section-spacing { padding: 60px 0; }
     .space-offset-top { margin-top: 100px; }
 }
 
-/* Download CV Button Custom Styling */
+@media (max-width: 480px) {
+    /* STRICT SAFE CHECK FOR TYPING ANIMATION ON MOBILE */
+    .css-typing {
+        white-space: normal; /* Mobile layout par text break ho sake */
+        border-right: none;
+        animation: none; /* Mobile animation glitch prevention */
+        width: auto !important;
+        display: inline;
+    }
+    .brand-logo-node { font-size: 22px; }
+    .nav-cta-trigger-btn { padding: 8px 14px; font-size: 12px; }
+}
+
+/* ==========================================================================
+   MISC ELEMENTS & ANIMATION HOOKS
+   ========================================================================== */
 #downloadCvBtn.btn-cyan {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    
     width: 170px;                  
     height: 48px;                  
-    
     background-color: #ffffff;     
     color: #000000;                
     border: none;
     border-radius: 8px;            
-    
     font-size: 15px;
     font-weight: 600;              
     text-decoration: none;         
-    
     transition: background-color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
     vertical-align: middle;
@@ -1070,7 +1122,7 @@ h1, h2, h3, h4, .brand-logo-node {
     transform: translateY(-2px);   
 }
 
-/* Typing Effect Configuration Layout Stack */
+/* Desktop and Tablet Responsive Typing Core Ruleset */
 .css-typing {
     --accent-purple: #7c3aed;
     color: var(--accent-purple);
@@ -1078,14 +1130,13 @@ h1, h2, h3, h4, .brand-logo-node {
     white-space: nowrap;
     overflow: hidden;
     display: inline-block;
-    vertical-align: bottom; 
-    
-    animation: typing 4.5s steps(19, end) infinite, blink-caret .75s step-end infinite;
+    vertical-align: bottom;
+    animation: typing 4.5s steps(16, end) infinite, blink-caret .75s step-end infinite;
 }
 
 @keyframes typing {
     0% { width: 0; }
-    70%, 100% { width: 19ch; } 
+    70%, 100% { width: 16ch; } 
 }
 
 @keyframes blink-caret {
