@@ -421,3 +421,5 @@ function handleTelemetryFormPipeline(event) {
     // 7. Form ko wapas empty/reset karne ke liye
     formElement.reset();
 }
+
+const messagePayload = document.getElementById('formMessagePayload').value;
