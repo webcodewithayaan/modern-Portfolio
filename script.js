@@ -360,3 +360,64 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+
+/**
+ * Core Layout Module 06: Transmit Telemetry Input Contact Pipeline
+ * Handles submission capture and logs values to console cleanly.
+ */
+function handleTelemetryFormPipeline(event) {
+    // 1. Default page refresh ko block karo
+    event.preventDefault();
+
+    // 2. Form element aur button select karo user interaction feedback ke liye
+    const formElement = document.getElementById('portfolioTelemetryForm');
+    const submitBtn = document.getElementById('formSubmitTriggerBtn');
+    const statusReturn = document.getElementById('formPipelineStatusReturn');
+
+    // 3. Har specific input field se data nikalwao
+    const clientName = document.getElementById('formClientName').value;
+    const clientEmail = document.getElementById('formClientEmail').value;
+    const projectTier = document.getElementById('formProjectTier').value;
+    const projectTierText = document.getElementById('formProjectTier').options[document.getElementById('formProjectTier').selectedIndex].text;
+    const messagePayload = document.getElementById('formMessagePayload').value;
+
+    // 4. Saare data ko ek premium structure object mein compile karo
+    const telemetryPayload = {
+        meta: {
+            pipelineId: "TELEMETRY_STREAM_" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+            timestamp: new Date().toLocaleString(),
+            status: "CAPTURED"
+        },
+        data: {
+            identityName: clientName,
+            networkEmail: clientEmail,
+            deploymentObjectiveKey: projectTier,
+            deploymentObjectiveLabel: projectTierText,
+            transmitMessagePayload: messagePayload
+        }
+    };
+
+    // 5. BOOM! Console mein data print karwao cyber-punk thematic style me
+    console.log("%c==================================================", "color: #7c3aed; font-weight: bold;");
+    console.log(`%c[📡] TELEMETRY PIPELINE STREAM TRANSMITTED`, "color: #4f46e5; font-weight: bold; font-size: 12px;");
+    console.log("%c==================================================", "color: #7c3aed; font-weight: bold;");
+    console.dir(telemetryPayload);
+    console.log("%c==================================================", "color: #7c3aed; font-weight: bold;");
+
+    // 6. Optional UI Shashka: User ko screen par feedback dikhane ke liye
+    if (statusReturn) {
+        statusReturn.style.color = "#a5b4fc";
+        statusReturn.style.fontSize = "13px";
+        statusReturn.style.fontFamily = "'Space Grotesk', sans-serif";
+        statusReturn.innerText = "✓ Stream transmitted to console.";
+        
+        // 3 seconds baad text gayab karne ke liye
+        setTimeout(() => {
+            statusReturn.innerText = "";
+        }, 4000);
+    }
+
+    // 7. Form ko wapas empty/reset karne ke liye
+    formElement.reset();
+}
